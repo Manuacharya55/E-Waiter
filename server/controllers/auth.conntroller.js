@@ -51,7 +51,7 @@ export const loginTable = asyncHandler(async (req, res) => {
   res
     .status(200)
     .json(
-      new ApiSuccess(200, "logged in successfully", { existingUser, token })
+      new ApiSuccess(200, "logged in successfully", { user : existingUser, token })
     );
 });
 
