@@ -33,6 +33,20 @@ export const addFood = asyncHandler(async (req, res) => {
   res.status(200).json(new ApiSuccess(200, "Food Added Successfully", food));
 });
 
+export const getSingleFood = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const existingFood = await Food.findById(id);
+
+  if (!existingFood) {
+    throw new ApiError(400, "No Such Food");
+  }
+
+  res
+    .status(200)
+    .json(new ApiSuccess(200, "Fetched Food Successfully", existingFood));
+});
+
 export const editFood = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { name, foodtype, price, imageUrl } = req.body;
@@ -59,6 +73,7 @@ export const editFood = asyncHandler(async (req, res) => {
 export const handleFoodActivate = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
+  console.log(id)
   const existingFood = await Food.findById(id);
   if (!existingFood) {
     throw new ApiError(400, "No Such Food Exists");

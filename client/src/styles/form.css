@@ -29,7 +29,6 @@ body,
   justify-content: center;
   gap: 20px;
   padding: 20px;
-  border: 1px solid;
   border-radius: 10px;
 }
 
@@ -68,3 +67,4 @@ body,
   background-color: #010101;
   color: white;
 }
+

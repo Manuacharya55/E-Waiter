@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const handleGetRequest = async() =>{
+export const handleGetRequest = async(URL,token) =>{
     try {
         const response = await axios.get(URL,{
             headers : {

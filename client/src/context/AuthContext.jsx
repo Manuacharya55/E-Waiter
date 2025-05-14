@@ -5,6 +5,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+  const [reciepe,setReciepe] = useState([]);
 
   const setLocalStorage = (token, role) => {
     localStorage.setItem("token", token);
@@ -24,7 +25,6 @@ export const AuthProvider = ({ children }) => {
   const loadLocalStorage = () => {
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
-
     if (!token && !role) {
       return null;
     }
@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ setLocalStorage, removeLocalStorage }}>
+    <AuthContext.Provider value={{user, setLocalStorage, removeLocalStorage,reciepe,setReciepe }}>
       {children}
     </AuthContext.Provider>
   );
