@@ -7,6 +7,7 @@ import Tables from "./pages/admin/Tables";
 import History from "./pages/admin/History";
 import Reciepe from "./pages/user/Reciepe";
 import "./styles/admin.css"
+import Cart from "./pages/user/Cart";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/orders" element={<Orders />} />
 
         <Route path="/reciepe" element={<Reciepe />} />
+        <Route path="/cart" element={<Cart />} />
       </Routes>
     </BrowserRouter>
   );

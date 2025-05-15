@@ -5,7 +5,8 @@
   overflow-y: auto;
 }
 
-#banner ,#add-form{
+#banner,
+#add-form {
   padding: 20px;
   background-color: #121212;
   color: white;
@@ -16,32 +17,32 @@
   font-size: 5rem;
 }
 
-#add-form input , 
-select{
-    width: 200px;
-    padding: 10px;
-    border: 1px solid white;
-    background-color: transparent;
-    color: white;
-    border-radius: 25px;
-    margin-right: 15px;
+#add-form input,
+select {
+  width: 200px;
+  padding: 10px;
+  border: 1px solid white;
+  background-color: transparent;
+  color: white;
+  border-radius: 25px;
+  margin-right: 15px;
 }
 
-option{
+option {
   color: black;
 }
-#add-form input:focus{
-    border: 1px solid white;
-    outline: none;
+#add-form input:focus {
+  border: 1px solid white;
+  outline: none;
 }
-#add-form button{
-    padding: 10px;
-    border-radius: 10px;
-    border: none;
+#add-form button {
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
 }
 
-
-#table-container , #reciepe-container{
+#table-container,
+#reciepe-container {
   max-width: 950px;
   width: 100%;
   padding: 30px 0px;
@@ -51,8 +52,7 @@ option{
   align-items: center;
   justify-content: center;
   gap: 20px;
-    flex-wrap: wrap;
-
+  flex-wrap: wrap;
 }
 
 table {
@@ -83,29 +83,28 @@ thead {
   border-radius: 10px 10px 0px 0px;
 }
 
-
 /* ===== Food Card ===== */
-#card{
-    width: 250px;
-    border-radius: 10px;
-    overflow: hidden;
-    /* border: 1px solid;
+#card {
+  width: 250px;
+  border-radius: 10px;
+  overflow: hidden;
+  /* border: 1px solid;
     padding: 5px; */
-    box-shadow: 0px 5px 15px rgba(0,0,0,0.1);
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-#card img{
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-    /* border-radius: 10px; */
+#card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  /* border-radius: 10px; */
 }
 
-#card #card-details{
-    padding: 10px;
+#card #card-details {
+  padding: 10px;
 }
 
-#card #btn-holder{
+#card #btn-holder {
   width: 100%;
   padding: 10px 0px;
   display: flex;
@@ -113,7 +112,8 @@ thead {
   justify-content: space-between;
 }
 
-#btn-holder button,#banner  button{
+#btn-holder button,
+#banner button {
   width: fit-content;
   padding: 10px;
   border: none;
@@ -121,10 +121,74 @@ thead {
   color: white;
 }
 
-#edit{
+#edit {
   background-color: rgb(255, 128, 0);
 }
 
-#delete{
+#delete {
   background-color: #121212;
+}
+
+/* ===== cart component */
+
+#cart-container {
+  max-width: 900px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  gap: 10px;
+}
+
+#cart-container button{
+  padding: 10px;
+  color: white;
+  border-radius: 10px;
+  width: fit-content;
+  border: none;
+}
+#cart-component {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* border: 1px solid; */
+  padding: 10px;
+}
+
+#cart-component #food-details{
+  width: 200px;
+}
+#cart-component img {
+  height: 100px;
+  border-radius: 10px;
+}
+
+#cart-component #operation {
+  display: flex;
+  padding: 10px;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+}
+
+#operation svg {
+  font-size: 25px;
+}
+
+#cart-component #price{
+ width: 200px;
+  text-align: right;
+}
+#total-price{
+  width: 100%;
+  padding: 10px;
+  border-top: 1px solid;
+  text-align: right;
+  text-transform: capitalize;
+}
+
+#total-price h1{
+  margin-bottom: 15px;
 }

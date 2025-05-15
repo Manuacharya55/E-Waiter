@@ -1,14 +1,16 @@
 import React from "react";
-import "../styles/admin.css"
+import "../styles/admin.css";
 const Card = ({
   _id,
   name,
+  category,
   foodtype,
   price,
   editable = false,
   isActive,
   onEdit,
   onDelete,
+  addToCart,
 }) => {
   return (
     <div id="card">
@@ -33,7 +35,14 @@ const Card = ({
           </div>
         ) : (
           <div id="btn-holder">
-          <button id="delete">Add to cart</button>
+            <button
+              id="delete"
+              onClick={() => {
+                addToCart({ _id, name, foodtype, price ,category,imageUrl :"http://www.baltana.com/files/wallpapers-5/Pizza-HD-Wallpapers-15281.jpg" });
+              }}
+            >
+              Add to cart
+            </button>
           </div>
         )}
       </div>

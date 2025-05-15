@@ -5,16 +5,20 @@ import { createContext } from "react";
 const ReciepeContext = createContext();
 
 export const ReceipeProvide = ({ children }) => {
+  let arr = [];
   const reciepeReducer = (state, action) => {
     switch (action.type) {
       case "INITIAL":
         console.log(action.payload.data);
+        arr = action.payload.data;
         return action.payload.data;
 
       case "ADD":
-        return [...state, action.payload.data];
+        arr = [...state, action.payload.data];
+        return arr;
+
       case "EDIT":
-        return state.map((curEle) => {
+        return arr.map((curEle) => {
           if (curEle._id !== action.payload.data._id) {
             return curEle;
           } else {
@@ -23,7 +27,7 @@ export const ReceipeProvide = ({ children }) => {
         });
 
       case "DELETE":
-        return state.map((curEle) => {
+        return arr.map((curEle) => {
           if (curEle._id !== action.payload._id) {
             return curEle;
           } else {
