@@ -11,7 +11,6 @@ export const handlePostRequest = async (url,data,token) =>{
 
         return response.data
     } catch (error) {
-        console.log(error)
         return error
     }
 }

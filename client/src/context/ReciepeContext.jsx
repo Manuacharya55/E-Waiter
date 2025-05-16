@@ -9,7 +9,6 @@ export const ReceipeProvide = ({ children }) => {
   const reciepeReducer = (state, action) => {
     switch (action.type) {
       case "INITIAL":
-        console.log(action.payload.data);
         arr = action.payload.data;
         return action.payload.data;
 

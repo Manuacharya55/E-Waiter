@@ -26,7 +26,6 @@ const AllReciepe = () => {
     if (!user?.token) return;
 
     const response = await handleGetRequest(food_url, user.token);
-    console.log(response.data);
     reciepeDispatch({
       type: "INITIAL",
       payload: {
@@ -57,7 +56,6 @@ const AllReciepe = () => {
 
     if (isEditing) {
       serverResponse = handlePatchRequest(id, food_url, data, user.token);
-      console.log("editing", data);
     } else {
       serverResponse = handlePostRequest(food_url, data, user.token);
     }
@@ -96,7 +94,6 @@ const AllReciepe = () => {
     toast.promise(result, {
       loading: "Image is Uploading",
       success: (response) => {
-        console.log(response);
         setImageUrl(response);
       },
       error: (err) => err.message,
@@ -105,7 +102,6 @@ const AllReciepe = () => {
 
   const handleEdit = async (id) => {
     const response = await handleGetRequest(`${food_url}${id}`, user.token);
-    console.log(response.data.imageUrl);
     name.current.value = response.data.name;
     foodtype.current.value = response.data.foodtype;
     price.current.value = response.data.price;
@@ -123,8 +119,6 @@ const AllReciepe = () => {
       "",
       user.token
     );
-    console.log(response);
-    console.log("Deleting", id);
   };
 
   return isLoading ? (

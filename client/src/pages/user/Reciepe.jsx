@@ -7,17 +7,20 @@ import { useEffect } from "react";
 import Card from "../../components/Card";
 import { useCart } from "../../context/CartContext";
 import { useNavigate } from "react-router-dom";
+import { handlePostRequest } from "../../Api/post";
 
 const Reciepe = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [food, setFood] = useState([]);
-const navigate = useNavigate()
+  const navigate = useNavigate();
   const btnArray = ["All", "Breakfast", "Lunch", "Snacks", "Dinner"];
   const [btnstate, setBtnState] = useState(0);
   const food_url = import.meta.env.VITE_ADD_FOOD_URL;
   const { user } = useAuth();
   const { reciepe, reciepeDispatch } = useReciepe();
   const { cart, cartDispatch } = useCart();
+  const CART_URL = import.meta.env.VITE_POST_CART_URL + "add/";
+
   const loadData = async () => {
     if (!user?.token) return;
 
@@ -52,14 +55,16 @@ const navigate = useNavigate()
     }
   };
 
-  const addToCart = (food) => {
+  const addToCart = async(food) => {
+    const response = await handlePostRequest(`${CART_URL}${food._id}`,{},user.token)
     cartDispatch({
-      type:"ADD_TO_CART",
-      payload:{
-        food:food
-      }
-    })
-    console.log(cart)
+      type: "ADD_TO_CART",
+      payload: {
+        data: {
+          food : response.data.food,
+        },
+      },
+    });
   };
   return isLoading ? (
     "loading"
@@ -92,9 +97,13 @@ const navigate = useNavigate()
         })}
       </div>
       <div id="banner">
-        <button onClick={()=>{
-          navigate("/cart")
-        }}>Go To Cart</button>
+        <button
+          onClick={() => {
+            navigate("/cart");
+          }}
+        >
+          Go To Cart
+        </button>
       </div>
       <div id="reciepe-container">
         {food.length > 0

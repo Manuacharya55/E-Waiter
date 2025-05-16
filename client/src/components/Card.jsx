@@ -38,7 +38,7 @@ const Card = ({
             <button
               id="delete"
               onClick={() => {
-                addToCart({ _id, name, foodtype, price ,category,imageUrl :"http://www.baltana.com/files/wallpapers-5/Pizza-HD-Wallpapers-15281.jpg" });
+                addToCart({ _id, name, foodtype, price ,foodtype:category,imageUrl :"http://www.baltana.com/files/wallpapers-5/Pizza-HD-Wallpapers-15281.jpg" });
               }}
             >
               Add to cart

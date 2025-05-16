@@ -6,23 +6,26 @@ const CartContext = createContext();
 export const CartProvider = ({ children }) => {
   const cartReducer = (state, action) => {
     switch (action.type) {
+
       case "ADD_TO_CART":
-        const exists = state.find(
-          (curEle) => curEle._id === action.payload.food._id
-        );
+
+        const exists = state.find((curEle) => {
+          return curEle.food?._id === action.payload.data.food._id;
+        });
+
         if (exists) {
           return state.map((curFood) => {
-            if (curFood._id === action.payload.food._id) {
+            if (curFood.food._id === action.payload.data.food._id) {
               return { ...curFood, quantity: curFood.quantity + 1 };
             }
             return curFood;
           });
         }
-        return [...state, { ...action.payload.food, quantity: 1 }];
+        return [...state, { food: action.payload.data.food, quantity: 1 }];
 
       case "INCREMENT":
         return state.map((curFood) => {
-          if (curFood._id == action.payload.food._id) {
+          if (curFood.food._id == action.payload.data) {
             return { ...curFood, quantity: curFood.quantity + 1 };
           }
           return curFood;
@@ -31,7 +34,7 @@ export const CartProvider = ({ children }) => {
       case "DECREMENT":
         return state
           .map((curFood) => {
-            if (curFood._id === action.payload.food._id) {
+            if (curFood.food._id === action.payload.data) {
               if (curFood.quantity > 1) {
                 return { ...curFood, quantity: curFood.quantity - 1 };
               }
@@ -40,20 +43,13 @@ export const CartProvider = ({ children }) => {
             return curFood;
           })
           .filter(Boolean);
+    
+          case "INITIAL" :
+            return action.payload.data
     }
   };
 
   const [cart, cartDispatch] = useReducer(cartReducer, [
-    {
-      foodtype: "breakfast",
-      imageUrl:
-        "http://www.baltana.com/files/wallpapers-5/Pizza-HD-Wallpapers-15281.jpg",
-      name: "Masala Dosa",
-      category : "Breakfast",
-      price: 60,
-      quantity: 1,
-      _id: "6820a18e07355a5fc1da0fcc",
-    },
   ]);
   return (
     <CartContext.Provider value={{ cart, cartDispatch }}>

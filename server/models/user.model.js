@@ -21,7 +21,7 @@ const userSchema = Schema({
   },
   cart: [
     {
-      product: {
+      food: {
         type: Schema.Types.ObjectId,
         required: true,
         ref: "Food",
@@ -54,7 +54,6 @@ userSchema.methods.generateToken = async function () {
     username : this.username
   },"jwt-secret")
 
-  console.log(token)
   return token
 };
 

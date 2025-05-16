@@ -12,7 +12,6 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("role", role);
     setIsLoggedIn(true);
     setUser({ token, role });
-    console.log(token,role)
   };
 
   const removeLocalStorage = () => {

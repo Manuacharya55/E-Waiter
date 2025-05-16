@@ -73,7 +73,7 @@ export const editFood = asyncHandler(async (req, res) => {
 export const handleFoodActivate = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
-  console.log(id)
+
   const existingFood = await Food.findById(id);
   if (!existingFood) {
     throw new ApiError(400, "No Such Food Exists");

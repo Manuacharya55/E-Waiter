@@ -2,33 +2,49 @@ import React, { useEffect } from "react";
 import { CiCirclePlus } from "react-icons/ci";
 import { CiCircleMinus } from "react-icons/ci";
 import { useCart } from "../context/CartContext";
+import { handlePostRequest } from "../Api/post";
+import { useAuth } from "../context/AuthContext";
+
+
 const CartComponent = ({ prop, totalPrice, setTotalPrice }) => {
-  const {cartDispatch } = useCart();
-  const handleChange = (operation) => {
+  const { cartDispatch } = useCart();
+  const INCREMENT_URL = import.meta.env.VITE_POST_CART_URL + "add/";
+  const DECREMENT_URL = import.meta.env.VITE_POST_CART_URL + "remove/";
+  const { user } = useAuth();
+
+  const handleChange = async (operation) => {
+    const URL = operation == "INCREMENT" ? INCREMENT_URL : DECREMENT_URL;
+
+    const response = await handlePostRequest(
+      `${URL}${prop.food._id}`,
+      {},
+      user.token
+    );
+    const { _id } = response.data?.food || prop.food;
+
     cartDispatch({
       type: operation,
       payload: {
-        food: {
-          _id: prop._id,
-          name: prop.name,
-          imageUrl: prop.imageUrl,
-        },
+        data: _id,
       },
     });
   };
-  useEffect(() => {
-    setTotalPrice(prop.price * prop.quantity);
-  }, [prop.price, prop.quantity]);
+
+  // useEffect(() => {
+  //   setTotalPrice(prop.food.price * prop.quantity);
+  // }, [prop.food.price, prop.quantity]);
 
   return (
     <>
       <div id="cart-component">
-        <img src={prop.imageUrl} alt="" />
+        <img src={prop.food?.imageUrl} alt="" />
 
         <div id="food-details">
-          <p>Name : {prop.name}</p>
-          <p>category : {prop.category}</p>
-          <h2>₹{prop.price} * {prop.quantity}</h2>
+          <p>Name : {prop.food.name}</p>
+          <p>category : {prop.food.category}</p>
+          <h2>
+            ₹{prop.food.price} * {prop.quantity}
+          </h2>
         </div>
 
         <div id="operation">
@@ -47,7 +63,7 @@ const CartComponent = ({ prop, totalPrice, setTotalPrice }) => {
 
         <div id="price">
           <p>Price</p>
-          <h1>₹ {prop.price * prop.quantity}</h1>
+          <h1>₹ {prop.food.price * prop.quantity}</h1>
         </div>
       </div>
     </>

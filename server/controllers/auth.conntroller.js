@@ -39,7 +39,6 @@ export const loginTable = asyncHandler(async (req, res) => {
     throw new ApiError(400, "No Such User Exists");
   }
   
-  console.log(existingUser);
   const isValidPassword = await existingUser.matchPassword(password);
 
   if (!isValidPassword) {
