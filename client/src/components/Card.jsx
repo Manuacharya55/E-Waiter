@@ -22,7 +22,7 @@ const Card = ({
       <div id="card-details">
         <h2>{name}</h2>
         <p>category : {foodtype}</p>
-        <h1>{price}rs</h1>
+        <h1>₹ {price}</h1>
 
         {editable ? (
           <div id="btn-holder">

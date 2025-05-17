@@ -6,9 +6,7 @@ const CartContext = createContext();
 export const CartProvider = ({ children }) => {
   const cartReducer = (state, action) => {
     switch (action.type) {
-
       case "ADD_TO_CART":
-
         const exists = state.find((curEle) => {
           return curEle.food?._id === action.payload.data.food._id;
         });
@@ -43,14 +41,16 @@ export const CartProvider = ({ children }) => {
             return curFood;
           })
           .filter(Boolean);
-    
-          case "INITIAL" :
-            return action.payload.data
+
+      case "INITIAL":
+        return action.payload.data;
+
+      case "CLEAR_CART" :
+        return []
     }
   };
 
-  const [cart, cartDispatch] = useReducer(cartReducer, [
-  ]);
+  const [cart, cartDispatch] = useReducer(cartReducer, []);
   return (
     <CartContext.Provider value={{ cart, cartDispatch }}>
       {children}

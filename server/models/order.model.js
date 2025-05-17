@@ -4,10 +4,11 @@ const orderSchema = Schema({
   table: {
     type: Schema.Types.ObjectId,
     required: true,
+    ref:"User"
   },
   order: [
     {
-      product: {
+      food: {
         type: Schema.Types.ObjectId,
         required: true,
         ref: "Food",
@@ -29,7 +30,7 @@ const orderSchema = Schema({
     default: "pending",
   },
   paymentStatus: {
-    type: Boolean,
+    type: String,
     enum: ["pending", "paid"],
     default: "pending",
   },

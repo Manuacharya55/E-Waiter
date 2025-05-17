@@ -6,7 +6,7 @@ import { verifyUser } from "../middleware/auth.middleware.js";
 const router = express.Router();
 
 router.route("/fetch-cart").get(verifyUser,loadCart)
-router.route("/clear-cart").get(verifyUser,clearCart)
+router.route("/clear-cart").delete(verifyUser,clearCart)
 router.route("/add/:id").post(verifyUser,addItem)
 router.route("/remove/:id").post(verifyUser,removeItem)
 

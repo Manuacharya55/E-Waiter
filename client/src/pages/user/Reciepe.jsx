@@ -8,6 +8,7 @@ import Card from "../../components/Card";
 import { useCart } from "../../context/CartContext";
 import { useNavigate } from "react-router-dom";
 import { handlePostRequest } from "../../Api/post";
+import toast from "react-hot-toast";
 
 const Reciepe = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -65,6 +66,7 @@ const Reciepe = () => {
         },
       },
     });
+    toast.success("Added To Cart")
   };
   return isLoading ? (
     "loading"

@@ -7,6 +7,7 @@ import { useAuth } from "../../context/AuthContext";
 import { handleGetRequest } from "../../Api/get";
 import { handlePatchRequest } from "../../Api/patch";
 import { useReciepe } from "../../context/ReciepeContext";
+import NavBar from "../../components/NavBar";
 
 const AllReciepe = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -125,6 +126,7 @@ const AllReciepe = () => {
     "Loading"
   ) : (
     <div id="container">
+      <NavBar></NavBar>
       <div id="banner">
         <h1>All Reciepes</h1>
       </div>

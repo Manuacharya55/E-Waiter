@@ -7,7 +7,7 @@ import { useAuth } from "../context/AuthContext";
 
 
 const CartComponent = ({ prop, totalPrice, setTotalPrice }) => {
-  const { cartDispatch } = useCart();
+  const {cart, cartDispatch } = useCart();
   const INCREMENT_URL = import.meta.env.VITE_POST_CART_URL + "add/";
   const DECREMENT_URL = import.meta.env.VITE_POST_CART_URL + "remove/";
   const { user } = useAuth();
@@ -30,9 +30,9 @@ const CartComponent = ({ prop, totalPrice, setTotalPrice }) => {
     });
   };
 
-  // useEffect(() => {
-  //   setTotalPrice(prop.food.price * prop.quantity);
-  // }, [prop.food.price, prop.quantity]);
+  useEffect(() => {
+    setTotalPrice(cart.reduce((sum,acc)=> sum + (acc.food.price * acc.quantity),0))
+  }, [prop.food.price, prop.quantity]);
 
   return (
     <>
