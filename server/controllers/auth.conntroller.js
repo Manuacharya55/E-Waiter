@@ -72,3 +72,8 @@ export const handleActivate = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiSuccess(200, "Updated Status Successfully", updatedtable));
 });
+
+export const listUsers = asyncHandler(async(req,res)=>{
+  const allusers = await User.find().select("_id isActive role username");
+  res.status(200).json(new ApiSuccess(200,"Fetched Users Successfully",allusers))
+})

@@ -215,7 +215,6 @@ td button {
 #modal {
   /* width: 250px; */
   position: absolute;
-  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -245,4 +244,16 @@ td button {
   width: 100%;
   height: 100%;
   display: flex;
+}
+
+#tile{
+  padding: 40px 10px;
+  border: 1px solid;
+  width: 350px;
+  text-align: center;
+  border-radius: 8px;
+}
+
+#tile h1{
+  font-size: 2.8rem;
 }

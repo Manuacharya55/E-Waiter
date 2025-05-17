@@ -1,5 +1,28 @@
+import { useState } from "react";
 import "../../styles/admin.css";
+import { useAuth } from "../../context/AuthContext";
+import { handleGetRequest } from "../../Api/get";
+import { useEffect } from "react";
+
 const Tables = () => {
+  const { user } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState([]);
+
+  const URL = import.meta.env.VITE_AUTH_URL+"list-users"
+
+  const fetchUsers = async () => {
+    if (!user?.token) return;
+    const response = await handleGetRequest(URL, user?.token);
+    console.log(response)
+  };
+
+  useEffect(()=>{
+    if(user?.token){
+      fetchUsers()
+    }
+  },[user?.token])
+  
   return (
     <div id="container">
       <div id="banner">
@@ -7,8 +30,14 @@ const Tables = () => {
       </div>
 
       <div id="add-form">
-        <input type="text" placeholder="Enter Table Name"/>
-        <input type="text" placeholder="Enter Table Password"/>
+        <input type="text" placeholder="Enter Table Name" />
+        <input type="text" placeholder="Enter Table Password" />
+        <select>
+          <option value="">---- select one ----</option>
+          <option value="user">User</option>
+          <option value="sheff">Sheff</option>
+          <option value="waiter">Waiter</option>
+        </select>
         <button>Add Table</button>
       </div>
 
