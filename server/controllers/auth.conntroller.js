@@ -4,7 +4,7 @@ import ApiError from "../utils/ApiError.js";
 import ApiSuccess from "../utils/ApiSuccess.js";
 
 export const registerTable = asyncHandler(async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, role } = req.body;
 
   if (!username || !password) {
     throw new ApiError(401, "All Fields Are Required");
@@ -38,7 +38,7 @@ export const loginTable = asyncHandler(async (req, res) => {
   if (!existingUser || !existingUser.isActive) {
     throw new ApiError(400, "No Such User Exists");
   }
-  
+
   const isValidPassword = await existingUser.matchPassword(password);
 
   if (!isValidPassword) {
@@ -50,7 +50,10 @@ export const loginTable = asyncHandler(async (req, res) => {
   res
     .status(200)
     .json(
-      new ApiSuccess(200, "logged in successfully", { user : existingUser, token })
+      new ApiSuccess(200, "logged in successfully", {
+        user: existingUser,
+        token,
+      })
     );
 });
 
@@ -73,7 +76,11 @@ export const handleActivate = asyncHandler(async (req, res) => {
     .json(new ApiSuccess(200, "Updated Status Successfully", updatedtable));
 });
 
-export const listUsers = asyncHandler(async(req,res)=>{
-  const allusers = await User.find().select("_id isActive role username");
-  res.status(200).json(new ApiSuccess(200,"Fetched Users Successfully",allusers))
-})
+export const listUsers = asyncHandler(async (req, res) => {
+  const allusers = await User.find({ role: { $ne: "admin" } }).select(
+    "_id isActive role username"
+  );
+  res
+    .status(200)
+    .json(new ApiSuccess(200, "Fetched Users Successfully", allusers));
+});

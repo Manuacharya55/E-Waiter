@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { handleDeleteRequest } from "../../Api/delete";
 import toast from "react-hot-toast";
 import { handlePostRequest } from "../../Api/post";
+import { socket } from "../../utils/socket";
 
 const Cart = () => {
   const navigate = useNavigate();

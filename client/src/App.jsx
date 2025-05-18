@@ -8,8 +8,11 @@ import Reciepe from "./pages/user/Reciepe";
 import "./styles/admin.css"
 import Cart from "./pages/user/Cart";
 import Tables from "./pages/admin/Tables";
+import Shef from "./pages/shef/Shef";
+import Waiter from "./pages/waiter/Waiter";
 
 function App() {
+
   return (
     <BrowserRouter>
       <Routes>
@@ -23,6 +26,9 @@ function App() {
 
         <Route path="/reciepe" element={<Reciepe />} />
         <Route path="/cart" element={<Cart />} />
+
+       <Route path="/shef" element={<Shef />} />
+       <Route path="/waiter" element={<Waiter />} />
       </Routes>
     </BrowserRouter>
   );

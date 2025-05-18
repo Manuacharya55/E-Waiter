@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { handleGetRequest } from "../../Api/get";
 import { useAuth } from "../../context/AuthContext";
 import Modal from "../../components/Modal";
+import NavBar from "../../components/NavBar";
+import { socket } from "../../utils/socket";
+import toast from "react-hot-toast";
 
 const Orders = () => {
   const ORDER_URL = import.meta.env.VITE_ORDER_URL;
@@ -12,6 +15,7 @@ const Orders = () => {
     isOpen: false,
     order: [],
   });
+
   const loadOrders = async () => {
     if (!user?.token) return;
     const response = await handleGetRequest(ORDER_URL, user?.token);
@@ -29,7 +33,7 @@ const Orders = () => {
     "table",
     "order id",
     "total Amount",
-    "status",
+    "food status",
     "Payment Status",
     "orderedAt",
     "order",
@@ -43,12 +47,26 @@ const Orders = () => {
     console.log(order);
   };
 
+  useEffect(() => {
+    const handleOrder = (data) => {
+      setData(prev=>[...prev,data.order]);
+      toast.success("New Order Place from" + " " + data.order.table.username)
+    };
+    socket.on("order-placed", handleOrder);
+
+    return () => {
+      socket.off("order-placed", handleOrder);
+    };
+  }, []);
+
+
   return isLoading ? (
     "Loading"
   ) : data.length == 0 ? (
     "No Orders Yet"
   ) : (
     <div id="container">
+      <NavBar />
       <div id="banner">
         <h1>All Orders</h1>
       </div>

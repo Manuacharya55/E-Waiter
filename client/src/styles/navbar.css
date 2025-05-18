@@ -33,3 +33,9 @@ nav ul li a {
 .active{
   border-bottom: 1px solid white;
 }
+
+header{
+  position: sticky;
+  top: 0px;
+  width: 100%;
+}

@@ -1,4 +1,8 @@
+import {createServer} from "http"
+import {Server} from "socket.io"
 import express from "express"
+
+
 import cors from "cors"
 import { connectDB } from "./DB/db.js"
 import { errorHandler } from "./middleware/error.middleware.js"
@@ -12,6 +16,12 @@ import dashboardRouter from "./routers/dashboard.router.js"
 
 
 const app = express()
+const server = createServer(app);
+
+export const io = new Server(server,{cors:{
+    origin:"*"
+}})
+
 app.use(cors())
 app.use(express.json())
 
@@ -31,6 +41,12 @@ app.use("/api/v1/cart",cartRouter)
 app.use("/api/v1/order",orderRouter)
 app.use("/api/v1/dashboard",dashboardRouter)
 
-app.listen(4000,()=>{
+
+io.on("connection",(socket)=>{
+    console.log("user connected")
+})
+
+
+server.listen(4000,()=>{
     console.log("server started at 4000")
 })

@@ -5,6 +5,9 @@ import { handlePostRequest } from "../Api/post";
 import "../styles/form.css";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { socket } from "../utils/socket";
+
 
 const Login = () => {
   const username = useRef("");
@@ -19,6 +22,8 @@ const Login = () => {
       username: username.current.value,
       password: password.current.value,
     };
+
+    socket.emit("login-method",{message:"hello-hello"})
 
     const serverResponse = handlePostRequest(url, data, "");
 

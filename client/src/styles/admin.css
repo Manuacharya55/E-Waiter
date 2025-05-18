@@ -13,6 +13,7 @@
   text-align: center;
 }
 
+
 #banner h1 {
   font-size: 5rem;
 }
@@ -233,20 +234,20 @@ td button {
   display: none;
 }
 
-#modal svg{
+#modal svg {
   display: block;
   margin-left: auto;
   margin-bottom: 15px;
   font-size: 25px;
 }
 
-#page{
+#page {
   width: 100%;
   height: 100%;
   display: flex;
 }
 
-#tile{
+#tile {
   padding: 40px 10px;
   border: 1px solid;
   width: 350px;
@@ -254,6 +255,26 @@ td button {
   border-radius: 8px;
 }
 
-#tile h1{
+#tile h1 {
   font-size: 2.8rem;
+}
+
+#tile-btn{
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 15px;
+
+  padding-left: 20px;
+}
+ 
+#tile-btn #delete{
+  width: 100%;
+}
+#tile-btn option{
+  text-align: center;
+  color: white;
+  width: 100%;
 }
