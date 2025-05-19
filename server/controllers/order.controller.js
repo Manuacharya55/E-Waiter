@@ -5,6 +5,17 @@ import Order from "../models/order.model.js";
 import ApiSuccess from "../utils/ApiSuccess.js";
 import { io } from "../index.js";
 
+const dates_calculated = () => {
+  const date = new Date();
+  const startoftheDay = new Date(date);
+  startoftheDay.setUTCHours(0, 0, 0, 0);
+
+  const endoftheDay = new Date(date);
+  endoftheDay.setUTCHours(23, 59, 59, 999);
+
+  return { startoftheDay, endoftheDay };
+};
+
 export const orderFood = asyncHandler(async (req, res) => {
   const { _id } = req.user;
 
@@ -44,6 +55,27 @@ export const orderFood = asyncHandler(async (req, res) => {
   res.json(new ApiSuccess(200, "Order Placed Successfully", createdOrder));
 });
 
+export const fetchTodaysOrders = asyncHandler(async (req, res) => {
+  const { startoftheDay, endoftheDay } = dates_calculated();
+  const allOrders = await Order.find({
+    orderedAt: {
+      $gte: startoftheDay,
+      $lte: endoftheDay,
+    },
+    paymentStatus: { $ne: "paid" },
+  }).populate([
+    {
+      path: "table",
+      select: "username _id",
+    },
+    {
+      path: "order.food",
+    },
+  ]);
+
+  res.json(new ApiSuccess(200, "All Orders fetched", allOrders));
+});
+
 export const fetchAllOrders = asyncHandler(async (req, res) => {
   const allOrders = await Order.find().populate([
     {
@@ -58,11 +90,17 @@ export const fetchAllOrders = asyncHandler(async (req, res) => {
   res.json(new ApiSuccess(200, "All Orders fetched", allOrders));
 });
 
-export const fetchSheffOrder = asyncHandler(async (req, res) => {
+export const fetchSheff_WaiterOrder = asyncHandler(async (req, res) => {
+  const { startoftheDay, endoftheDay } = dates_calculated();
+  const array =
+    req.user.role == "sheff" ? ["pending", "processing"] : ["processed"];
 
-  const date = new Date();
   const allOrders = await Order.find({
-    status: { $in: ["pending", "processing"] },
+    status: { $in: array },
+    orderedAt: {
+      $gte: startoftheDay,
+      $lte: endoftheDay,
+    },
   }).populate([
     {
       path: "table",
@@ -74,4 +112,63 @@ export const fetchSheffOrder = asyncHandler(async (req, res) => {
   ]);
 
   res.json(new ApiSuccess(200, "All Orders fetched", allOrders));
+});
+
+export const update_Order_Status = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  console.log(status);
+  const updatedData = await Order.findByIdAndUpdate(
+    id,
+    { $set: { status } },
+    { new: true }
+  );
+
+  if (!updatedData) {
+    throw new ApiError(400, "No Such Data");
+  }
+
+  const order = await Order.findById(id).populate([
+    {
+      path: "table",
+      select: "username _id",
+    },
+    {
+      path: "order.food",
+    },
+  ]);
+
+  io.emit("order-status-updated", { data: order });
+  if (status == "processed") {
+    io.emit("waiter-status-updated", { data: order });
+  }
+  res.status(200).json(new ApiSuccess(200, "Updated Data Successfully", order));
+});
+
+export const update_Payment_Status = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  const updatedData = await Order.findByIdAndUpdate(
+    id,
+    { $set: { paymentStatus : status } },
+    { new: true }
+  );
+
+  if (!updatedData) {
+    throw new ApiError(400, "No Such Data");
+  }
+
+  const order = await Order.findById(id).populate([
+    {
+      path: "table",
+      select: "username _id",
+    },
+    {
+      path: "order.food",
+    },
+  ]);
+
+  res.status(200).json(new ApiSuccess(200, "Updated Data Successfully", order));
 });

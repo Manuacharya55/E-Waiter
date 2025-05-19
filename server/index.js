@@ -42,11 +42,6 @@ app.use("/api/v1/order",orderRouter)
 app.use("/api/v1/dashboard",dashboardRouter)
 
 
-io.on("connection",(socket)=>{
-    console.log("user connected")
-})
-
-
 server.listen(4000,()=>{
     console.log("server started at 4000")
 })

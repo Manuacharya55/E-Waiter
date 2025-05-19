@@ -13,11 +13,10 @@ export const ReceipeProvide = ({ children }) => {
         return action.payload.data;
 
       case "ADD":
-        arr = [...state, action.payload.data];
-        return arr;
+        return [...state, action.payload.data];
 
       case "EDIT":
-        return arr.map((curEle) => {
+        return state.map((curEle) => {
           if (curEle._id !== action.payload.data._id) {
             return curEle;
           } else {
@@ -26,7 +25,7 @@ export const ReceipeProvide = ({ children }) => {
         });
 
       case "DELETE":
-        return arr.map((curEle) => {
+        return state.map((curEle) => {
           if (curEle._id !== action.payload._id) {
             return curEle;
           } else {

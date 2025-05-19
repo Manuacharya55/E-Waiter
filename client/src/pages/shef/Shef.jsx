@@ -5,18 +5,49 @@ import { useEffect } from "react";
 import { socket } from "../../utils/socket";
 import toast from "react-hot-toast";
 import { handleGetRequest } from "../../Api/get";
+import { handlePatchRequest } from "../../Api/patch";
+import { CgLogOut } from "react-icons/cg";
+import { useNavigate } from "react-router-dom";
 
 const Shef = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
-  const { user } = useAuth();
+  const { user,removeLocalStorage } = useAuth();
+  const navigate = useNavigate();
   const URL = import.meta.env.VITE_ORDER_URL;
+
   const [isOpen, setIsOpen] = useState({
     isOpen: false,
     order: [],
   });
 
-  const handleUpdate = async () => {};
+  const handleUpdate = async (id, status) => {
+    console.log(id, status);
+    if (!user?.token) return;
+    const response = await handlePatchRequest(
+      URL + `update-status/`,
+      id,
+      { status },
+      user?.token
+    );
+
+    if (status == "processed") {
+      console.log("processed")
+      setData((prev) =>
+        prev.filter((curEle) => curEle._id != response.data._id)
+      );
+    } else {
+      setData((prev) =>
+        prev.map((curEle) => {
+          if (curEle._id == response.data._id) {
+            return response.data;
+          } else {
+            return curEle;
+          }
+        })
+      );
+    }
+  };
 
   useEffect(() => {
     const handleOrder = (data) => {
@@ -33,21 +64,31 @@ const Shef = () => {
   }, []);
 
   const loadOrder = async () => {
-    console
+    console;
     if (!user?.token) return;
-    const response = await handleGetRequest(URL + "shef-order", user?.token);
+    const response = await handleGetRequest(URL + "sheff-order", user?.token);
+    console.log(response);
     setData(response.data);
   };
+
   useEffect(() => {
     if (user?.token) {
       loadOrder();
     }
-  },[user?.token]);
+  }, [user?.token]);
 
   return isLoading ? (
     "Loading..."
   ) : (
     <div id="container">
+      <div id="banner">
+              <CgLogOut
+                onClick={() => {
+                  removeLocalStorage();
+                  navigate("/");
+                }}
+              />
+            </div>
       <div id="banner">
         <h1>Orders</h1>
       </div>
@@ -68,7 +109,12 @@ const Shef = () => {
                 view Details
               </button>
 
-              <select name="" id="delete">
+              <select
+                name=""
+                id="delete"
+                value={curEle.status}
+                onChange={(e) => handleUpdate(curEle._id, e.target.value)}
+              >
                 <option value="pending">Pending</option>
                 <option value="processing">Processing</option>
                 <option value="processed">Processed</option>

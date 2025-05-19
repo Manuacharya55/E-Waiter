@@ -31,7 +31,7 @@ const AllReciepe = () => {
       type: "INITIAL",
       payload: {
         data: response.data,
-      }
+      },
     });
     setReciepe(response.data);
     setIsLoading(false);
@@ -56,7 +56,7 @@ const AllReciepe = () => {
     if (!user.token) return;
 
     if (isEditing) {
-      serverResponse = handlePatchRequest(id, food_url, data, user.token);
+      serverResponse = handlePatchRequest(food_url, id, data, user.token);
     } else {
       serverResponse = handlePostRequest(food_url, data, user.token);
     }
@@ -67,18 +67,18 @@ const AllReciepe = () => {
         if (response.success) {
           if (isEditing) {
             reciepeDispatch({
-              type : "EDIT",
-              payload : {
-                data : response.data
-              }
-            })
+              type: "EDIT",
+              payload: {
+                data: response.data,
+              },
+            });
           } else {
             reciepeDispatch({
-              type : "ADD",
-              payload : {
-                data : response.data
-              }
-            })
+              type: "ADD",
+              payload: {
+                data: response.data,
+              },
+            });
           }
         } else {
           throw new Error("Failed to upload");
@@ -115,8 +115,8 @@ const AllReciepe = () => {
   // YET TO BUILD
   const handleDelete = async (id) => {
     const response = await handlePatchRequest(
-      id,
       `${food_url}active-status/`,
+      id,
       "",
       user.token
     );

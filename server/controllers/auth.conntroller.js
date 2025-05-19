@@ -18,6 +18,7 @@ export const registerTable = asyncHandler(async (req, res) => {
   const user = await User.create({
     username,
     password,
+    role
   });
 
   const token = await user.generateToken();

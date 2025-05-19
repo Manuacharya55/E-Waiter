@@ -18,13 +18,30 @@ export const verifyUser = asyncHandler(async (req, res, next) => {
   }
 
   req.user = user;
-
+console.log("passed")
   next();
 });
 
 export const verifyAdmin = asyncHandler(async (req, res, next) => {
 
   if (req.user.role !== "admin"){
+    throw new ApiError(400,"You Have No Access")
+  }
+
+  next();
+});
+
+export const verifySheff = asyncHandler(async (req, res, next) => {
+  if (req.user.role !== "sheff"){
+    throw new ApiError(400,"You Have No Access")
+  }
+
+  next();
+});
+
+export const verifyWaiter = asyncHandler(async (req, res, next) => {
+
+  if (req.user.role !== "waiter"){
     throw new ApiError(400,"You Have No Access")
   }
 

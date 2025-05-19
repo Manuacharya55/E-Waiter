@@ -18,6 +18,13 @@
   font-size: 5rem;
 }
 
+#banner svg{
+  color: white;
+  font-size: 1.5rem;
+  display: block;
+  margin-left: auto;
+}
+
 #add-form input,
 select {
   width: 200px;
@@ -91,6 +98,14 @@ td button {
   text-align: center;
 }
 
+td option{
+  width: 150px;
+  color: white;
+}
+
+td select#delete{
+  width: 140px;
+}
 /* ===== Food Card ===== */
 #card {
   width: 250px;

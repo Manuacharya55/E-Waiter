@@ -9,6 +9,7 @@ import { useCart } from "../../context/CartContext";
 import { useNavigate } from "react-router-dom";
 import { handlePostRequest } from "../../Api/post";
 import toast from "react-hot-toast";
+import { CgLogOut } from "react-icons/cg";
 
 const Reciepe = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -72,6 +73,12 @@ const Reciepe = () => {
     "loading"
   ) : (
     <div id="container">
+      <h1>
+              <CgLogOut onClick={()=>{
+                removeLocalStorage()
+                navigate("/")
+              }}/>
+            </h1>
       <div id="banner">
         <h1>All Reciepes</h1>
       </div>

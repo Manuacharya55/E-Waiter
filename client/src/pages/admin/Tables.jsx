@@ -16,7 +16,7 @@ const Tables = () => {
 
   const name = useRef();
   const password = useRef();
-  const role = useRef();
+  const userrole = useRef();
 
   const URL = import.meta.env.VITE_AUTH_URL;
 
@@ -36,8 +36,8 @@ const Tables = () => {
   const handleActivation = async (id) => {
     if (!user?.token) return;
     const response = await handlePatchRequest(
-      id,
       URL + "active-status/",
+      id,
       {},
       user?.token
     );
@@ -65,13 +65,18 @@ const Tables = () => {
     const userData = {
       username: name.current.value,
       password: password.current.value,
-      role: password.current.value,
+      role: userrole.current.value,
     };
-    const response = await handlePostRequest(URL+"register",userData,user?.token)
-    const {username,_id,role,isActive} = response.data.user
-    setData(prev=>[...prev,{username,_id,role,isActive}])
+    const response = await handlePostRequest(
+      URL + "register",
+      userData,
+      user?.token
+    );
+    const { username, _id, role, isActive } = response.data.user;
+    setData((prev) => [...prev, { username, _id, role, isActive }]);
+    toast.success(response.message);
   };
-  
+
   return isLoading ? (
     "Loading"
   ) : (
@@ -89,7 +94,7 @@ const Tables = () => {
             placeholder="Enter Table Password"
             ref={password}
           />
-          <select ref={role}>
+          <select ref={userrole}>
             <option value="">---- select one ----</option>
             <option value="table">table</option>
             <option value="sheff">Sheff</option>
@@ -114,7 +119,7 @@ const Tables = () => {
               <tr>
                 <td>{curEle.username}</td>
                 <td>{curEle.role}</td>
-                <td>{curEle.isActive ? "Active" : "In Active"}</td>
+                <td>{curEle.isActive ? "Active" : "Inactive"}</td>
                 <td>
                   <button
                     id="delete"
