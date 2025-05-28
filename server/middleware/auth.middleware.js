@@ -6,44 +6,44 @@ import ApiError from "../utils/ApiError.js";
 export const verifyUser = asyncHandler(async (req, res, next) => {
   const token = req.header("auth-token");
 
-  if (!token){
-    throw new ApiError(400,"No Token Found")
+  if (!token) {
+    throw new ApiError(400, "No Token Found");
   }
-  
-  const decoded = jwt.verify(token, "jwt-secret");
 
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
   const user = await User.findById(decoded._id);
-  if (!user){
-    throw new ApiError(400,"No User Exists")
+
+  if (!user) {
+    throw new ApiError(400, "No User Exists");
   }
 
   req.user = user;
-console.log("passed")
   next();
 });
 
 export const verifyAdmin = asyncHandler(async (req, res, next) => {
+  const role = "admin";
 
-  if (req.user.role !== "admin"){
-    throw new ApiError(400,"You Have No Access")
+  if (req.user.role !== role) {
+    throw new ApiError(400, `You are not ${role} to access this route`);
   }
-
   next();
 });
 
 export const verifySheff = asyncHandler(async (req, res, next) => {
-  if (req.user.role !== "sheff"){
-    throw new ApiError(400,"You Have No Access")
-  }
+  const role = "sheff";
 
+  if (req.user.role !== role) {
+    throw new ApiError(400, `You are not ${role} to access this route`);
+  }
   next();
 });
 
 export const verifyWaiter = asyncHandler(async (req, res, next) => {
-
-  if (req.user.role !== "waiter"){
-    throw new ApiError(400,"You Have No Access")
+  const role = "waiter";
+  
+  if (req.user.role !== role) {
+    throw new ApiError(400, `You are not ${role} to access this route`);
   }
-
   next();
 });

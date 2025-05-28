@@ -13,7 +13,6 @@ const DashBoard = () => {
   const loadDashboard = async () => {
     if (!user?.token) return;
     const response = await handleGetRequest(URL, user?.token);
-    console.log(response);
     setData(response.data);
     setIsLoading(false);
   };
@@ -26,28 +25,30 @@ const DashBoard = () => {
 
   return isLoading ? (
     "Loading"
-  ) : (
+  ) : Array.isArray(data) && data.length === 0 ? "No Data Yet" : (
     <div id="container">
-      <NavBar />
+      <header>
+        <NavBar />
       <div id="banner">
         <h1>Dashboard</h1>
       </div>
-      <div id="reciepe-container">
+      </header>
+      <div id="sub-container">
         <div id="tile">
           <h2>Total Users</h2>
-          <h1>{data.user}</h1>
+          <h1>{data?.user}</h1>
         </div>
         <div id="tile">
           <h2>Total Reciepe</h2>
-          <h1>{data.reciepe}</h1>
+          <h1>{data?.reciepe}</h1>
         </div>
         <div id="tile">
           <h2>Total Order Count</h2>
-          <h1>{data.orders[0].totalOrders}</h1>
+          <h1>{data?.orders[0]?.totalOrders || 0}</h1>
         </div>
         <div id="tile">
           <h2>Total Earning</h2>
-          <h1>₹ {data.orders[0].totalAmount}</h1>
+          <h1>₹ {data?.orders[0]?.totalAmount || 0}</h1>
         </div>
       </div>
     </div>

@@ -114,7 +114,7 @@ const Reciepe = () => {
           Go To Cart
         </button>
       </div>
-      <div id="reciepe-container">
+      <div id="sub-container">
         {food.length > 0
           ? food.map((curEle) => (
               <Card

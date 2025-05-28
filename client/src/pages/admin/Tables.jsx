@@ -81,7 +81,8 @@ const Tables = () => {
     "Loading"
   ) : (
     <div id="container">
-      <NavBar />
+      <header>
+        <NavBar />
       <div id="banner">
         <h1>All Tables</h1>
       </div>
@@ -103,9 +104,10 @@ const Tables = () => {
           <button type="submit">Add Table</button>
         </form>
       </div>
+      </header>
 
-      <div id="table-container">
-        <table>
+      <div id="sub-container">
+        {data.length == 0? "No Users Yet" : <table>
           <thead>
             <tr>
               <th>name</th>
@@ -116,7 +118,7 @@ const Tables = () => {
           </thead>
           <tbody>
             {data.map((curEle) => (
-              <tr>
+              <tr key={curEle._id}>
                 <td>{curEle.username}</td>
                 <td>{curEle.role}</td>
                 <td>{curEle.isActive ? "Active" : "Inactive"}</td>
@@ -131,7 +133,7 @@ const Tables = () => {
               </tr>
             ))}
           </tbody>
-        </table>
+        </table>}
       </div>
     </div>
   );

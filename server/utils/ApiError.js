@@ -6,8 +6,6 @@ class ApiError extends Error {
     this.data = [];
     this.success = false;
     this.errors = errors;
-
-    // Error.captureStackTrace(this, this.constructor);
   }
 }
 

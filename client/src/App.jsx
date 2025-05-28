@@ -27,7 +27,7 @@ function App() {
         <Route path="/reciepe" element={<Reciepe />} />
         <Route path="/cart" element={<Cart />} />
 
-       <Route path="/shef" element={<Shef />} />
+       <Route path="/sheff" element={<Shef />} />
        <Route path="/waiter" element={<Waiter />} />
       </Routes>
     </BrowserRouter>

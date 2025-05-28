@@ -1,7 +1,8 @@
 import {createServer} from "http"
 import {Server} from "socket.io"
 import express from "express"
-
+import dotenv from 'dotenv';
+dotenv.config();
 
 import cors from "cors"
 import { connectDB } from "./DB/db.js"

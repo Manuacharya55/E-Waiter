@@ -14,7 +14,7 @@ const userSchema = Schema({
   role: {
     type: String,
     default: "table",
-    enum:["admin","table","sheff","waiter","user"]
+    enum:["admin","table","sheff","waiter"]
   },
   isActive: {
     type: Boolean,
@@ -39,7 +39,7 @@ const userSchema = Schema({
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
 
-  const salt = await bcrypt.genSalt(10);
+  const salt = await bcrypt.genSalt(Number(process.env.SALT));
   this.password = await bcrypt.hash(this.password, salt);
   next();
 });
@@ -49,11 +49,12 @@ userSchema.methods.matchPassword = async function (password) {
 };
 
 userSchema.methods.generateToken = async function () {
+
   const token = await jwt.sign({
     _id : this._id,
     role : this.role,
     username : this.username
-  },"jwt-secret")
+  },process.env.JWT_SECRET)
 
   return token
 };

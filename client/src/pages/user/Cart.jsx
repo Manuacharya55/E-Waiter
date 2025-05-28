@@ -58,7 +58,6 @@ const Cart = () => {
   const handleOrder = async()=>{
     if(!user?.token) return
     const response = await handlePostRequest(ORDER_URL,{},user?.token);
-    console.log(response)
     cartDispatch({
       type:"CLEAR_CART"
     })

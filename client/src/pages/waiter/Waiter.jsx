@@ -30,7 +30,6 @@ const Waiter = () => {
     );
 
     if (status == "delivered") {
-      console.log("processed");
       setData((prev) =>
         prev.filter((curEle) => curEle._id != response.data._id)
       );
@@ -66,8 +65,8 @@ const Waiter = () => {
         <h1>Orders</h1>
       </div>
 
-      <div id="reciepe-container">
-        {data.map((curEle) => (
+      <div id="sub-container">
+        {data.length == 0? "No Orders Yet" : data.map((curEle) => (
           <div id="tile">
             <h1>{curEle.table.username}</h1>
             <div id="tile-btn">

@@ -22,7 +22,6 @@ const Shef = () => {
   });
 
   const handleUpdate = async (id, status) => {
-    console.log(id, status);
     if (!user?.token) return;
     const response = await handlePatchRequest(
       URL + `update-status/`,
@@ -32,7 +31,6 @@ const Shef = () => {
     );
 
     if (status == "processed") {
-      console.log("processed")
       setData((prev) =>
         prev.filter((curEle) => curEle._id != response.data._id)
       );
@@ -51,7 +49,6 @@ const Shef = () => {
 
   useEffect(() => {
     const handleOrder = (data) => {
-      console.log(data.order);
       setData((prev) => [data.order, ...prev]);
       toast.success("New Order from table" + " " + data.order.table.username);
     };
@@ -64,10 +61,8 @@ const Shef = () => {
   }, []);
 
   const loadOrder = async () => {
-    console;
     if (!user?.token) return;
     const response = await handleGetRequest(URL + "sheff-order", user?.token);
-    console.log(response);
     setData(response.data);
   };
 
@@ -92,8 +87,8 @@ const Shef = () => {
       <div id="banner">
         <h1>Orders</h1>
       </div>
-      <div id="reciepe-container">
-        {data.map((curEle) => (
+      <div id="sub-container">
+        {data.length == 0? "No Orders Yet" : data.map((curEle) => (
           <div id="tile">
             <h1>{curEle.table.username}</h1>
             <div id="tile-btn">

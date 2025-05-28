@@ -102,6 +102,7 @@ const AllReciepe = () => {
   };
 
   const handleEdit = async (id) => {
+    if (user?.token) return;
     const response = await handleGetRequest(`${food_url}${id}`, user.token);
     name.current.value = response.data.name;
     foodtype.current.value = response.data.foodtype;
@@ -114,19 +115,28 @@ const AllReciepe = () => {
 
   // YET TO BUILD
   const handleDelete = async (id) => {
+    if (!user?.token) return;
+
     const response = await handlePatchRequest(
-      `${food_url}active-status/`,
+      food_url + "active-status/",
       id,
-      "",
-      user.token
+      {},
+      user?.token
     );
+    reciepeDispatch({
+      type: "EDIT",
+      payload: {
+        data: response.data,
+      },
+    });
   };
 
   return isLoading ? (
     "Loading"
   ) : (
     <div id="container">
-      <NavBar></NavBar>
+      <header>
+        <NavBar></NavBar>
       <div id="banner">
         <h1>All Reciepes</h1>
       </div>
@@ -144,8 +154,9 @@ const AllReciepe = () => {
         <input type="number" placeholder="Enter Price" ref={price} />
         <button type="submit">{isEditing ? "Update" : "Add Reciepe"}</button>
       </form>
+      </header>
 
-      <div id="reciepe-container">
+      <div id="sub-container">
         {reciepe.length > 0
           ? reciepe.map((curEle) => (
               <Card
@@ -158,6 +169,7 @@ const AllReciepe = () => {
                 isActive={curEle.isActive}
                 onEdit={handleEdit}
                 onDelete={handleDelete}
+                imageUrl={curEle.imageUrl}
               />
             ))
           : "No Reciepes Yet"}

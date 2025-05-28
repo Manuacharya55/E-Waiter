@@ -5,6 +5,19 @@
   overflow-y: auto;
 }
 
+#sub-container{
+  max-width: 950px;
+  width: 100%;
+  padding: 30px 30px;
+  margin: auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
 #banner,
 #add-form {
   padding: 20px;
@@ -12,7 +25,6 @@
   color: white;
   text-align: center;
 }
-
 
 #banner h1 {
   font-size: 5rem;
@@ -45,22 +57,8 @@ option {
 }
 #add-form button {
   padding: 10px;
-  border-radius: 10px;
+  border-radius: 8px;
   border: none;
-}
-
-#table-container,
-#reciepe-container {
-  max-width: 950px;
-  width: 100%;
-  padding: 30px 0px;
-  margin: auto;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
 }
 
 table {
@@ -80,7 +78,7 @@ th {
 }
 
 th {
-  background-color: black;
+  background-color: #121212;
   color: white;
   text-align: left;
   border-right: 1px solid white;
@@ -106,6 +104,8 @@ td option{
 td select#delete{
   width: 140px;
 }
+
+
 /* ===== Food Card ===== */
 #card {
   width: 250px;
@@ -137,15 +137,15 @@ td select#delete{
 
 #btn-holder button,
 #banner button {
-  width: fit-content;
   padding: 10px;
-  border: none;
   border-radius: 8px;
-  color: white;
 }
 
 #edit {
-  background-color: rgb(255, 128, 0);
+  border: 1px solid #121212;
+  width: 100px;
+  color: #121212;
+  background-color: white;
 }
 
 #delete {

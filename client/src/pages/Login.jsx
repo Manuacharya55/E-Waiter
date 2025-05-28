@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { socket } from "../utils/socket";
 
-
 const Login = () => {
   const username = useRef("");
   const password = useRef("");
@@ -23,8 +22,6 @@ const Login = () => {
       password: password.current.value,
     };
 
-    socket.emit("login-method",{message:"hello-hello"})
-
     const serverResponse = handlePostRequest(url, data, "");
 
     toast.promise(serverResponse, {
@@ -32,8 +29,23 @@ const Login = () => {
       success: (response) => {
         if (response.success) {
           setLocalStorage(response.data.token, response.data.user.role);
+
+          switch (response.data.user.role) {
+            case "admin":
+              navigate("/dashboard");
+              break;
+            case "table":
+              navigate("/reciepe");
+              break;
+            case "sheff":
+              navigate("/sheff");
+              break;
+            case "waiter":
+              navigate("/waiter");
+              break;
+          }
+
           return response.message;
-          navigate("/dashboard")
         } else {
           throw new Error("Invalid Credentials");
         }

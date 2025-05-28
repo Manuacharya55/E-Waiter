@@ -2,7 +2,6 @@ import React from "react";
 import { IoClose } from "react-icons/io5";
 
 const Modal = ({ isOpen, setIsOpen }) => {
-  console.log(isOpen);
   return (
     <div id="modal" className={isOpen.isOpen ? "display" : "hidden"}>
       <IoClose onClick={() => setIsOpen({ isOpen: false, order: [] })} />

@@ -22,12 +22,11 @@ export const orderFood = asyncHandler(async (req, res) => {
   const existingUser = await User.findById(_id).populate("cart.food");
 
   if (!existingUser) {
-    throw new ApiError(400, "No Such User Exists");
+    throw new ApiError(404, "No Such User Exists");
   }
 
   const orderArray = existingUser.cart;
   let totalAmount = 0;
-  console.log(orderArray);
   const order = orderArray.map((curEle) => {
     totalAmount += curEle.food.price * curEle.quantity;
     return { food: curEle.food._id, quantity: curEle.quantity };
@@ -118,7 +117,6 @@ export const update_Order_Status = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
 
-  console.log(status);
   const updatedData = await Order.findByIdAndUpdate(
     id,
     { $set: { status } },
@@ -126,7 +124,7 @@ export const update_Order_Status = asyncHandler(async (req, res) => {
   );
 
   if (!updatedData) {
-    throw new ApiError(400, "No Such Data");
+    throw new ApiError(404, "No Such Data");
   }
 
   const order = await Order.findById(id).populate([
@@ -157,7 +155,7 @@ export const update_Payment_Status = asyncHandler(async (req, res) => {
   );
 
   if (!updatedData) {
-    throw new ApiError(400, "No Such Data");
+    throw new ApiError(404, "No Such Data");
   }
 
   const order = await Order.findById(id).populate([

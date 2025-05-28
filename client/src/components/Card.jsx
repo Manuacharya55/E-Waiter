@@ -1,5 +1,5 @@
-import React from "react";
 import "../styles/admin.css";
+
 const Card = ({
   _id,
   name,
@@ -11,11 +11,12 @@ const Card = ({
   onEdit,
   onDelete,
   addToCart,
+  imageUrl
 }) => {
   return (
     <div id="card">
       <img
-        src="http://www.baltana.com/files/wallpapers-5/Pizza-HD-Wallpapers-15281.jpg"
+        src={imageUrl}
         alt=""
       />
 
