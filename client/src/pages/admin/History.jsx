@@ -4,6 +4,7 @@ import "../../styles/admin.css";
 import { handleGetRequest } from "../../Api/get";
 import Modal from "../../components/Modal";
 import NavBar from "../../components/NavBar";
+import toast from "react-hot-toast";
 
 const History = () => {
   const ORDER_URL = import.meta.env.VITE_ORDER_URL;
@@ -18,8 +19,12 @@ const History = () => {
   const loadOrders = async () => {
     if (!user?.token) return;
     const response = await handleGetRequest(ORDER_URL, user?.token);
-    setData(response.data);
-    setIsLoading(false);
+    if (response.success) {
+      setData(response.data);
+      setIsLoading(false);
+    } else {
+      toast.error("Failed To Load Data");
+    }
   };
 
   useEffect(() => {

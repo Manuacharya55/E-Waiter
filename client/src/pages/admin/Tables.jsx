@@ -23,8 +23,12 @@ const Tables = () => {
   const fetchUsers = async () => {
     if (!user?.token) return;
     const response = await handleGetRequest(URL + "list-users", user?.token);
-    setData(response.data);
+    if(response.success){
+      setData(response.data);
     setIsLoading(false);
+    }else{
+      toast.error("Failed To Load Data")
+    }
   };
 
   useEffect(() => {

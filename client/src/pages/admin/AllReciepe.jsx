@@ -86,6 +86,10 @@ const AllReciepe = () => {
       },
       error: (err) => err.messaage || "Failed to Uplaod",
     });
+
+    name.current.value = "";
+    foodtype.current.value = "";
+    price.current.value = "";
   };
 
   const handleOnchange = (e) => {
@@ -102,7 +106,8 @@ const AllReciepe = () => {
   };
 
   const handleEdit = async (id) => {
-    if (user?.token) return;
+    if (!user?.token) return;
+
     const response = await handleGetRequest(`${food_url}${id}`, user.token);
     name.current.value = response.data.name;
     foodtype.current.value = response.data.foodtype;
@@ -113,7 +118,6 @@ const AllReciepe = () => {
     setId(id);
   };
 
-  // YET TO BUILD
   const handleDelete = async (id) => {
     if (!user?.token) return;
 
@@ -123,12 +127,18 @@ const AllReciepe = () => {
       {},
       user?.token
     );
-    reciepeDispatch({
-      type: "EDIT",
-      payload: {
-        data: response.data,
-      },
-    });
+
+    if (response.success) {
+      reciepeDispatch({
+        type: "EDIT",
+        payload: {
+          data: response.data,
+        },
+      });
+      toast.success("Status Updated");
+    } else {
+      toast.error("Failed to Update Status");
+    }
   };
 
   return isLoading ? (
@@ -137,23 +147,23 @@ const AllReciepe = () => {
     <div id="container">
       <header>
         <NavBar></NavBar>
-      <div id="banner">
-        <h1>All Reciepes</h1>
-      </div>
+        <div id="banner">
+          <h1>All Reciepes</h1>
+        </div>
 
-      <form id="add-form" onSubmit={handleSubmit}>
-        <input type="text" placeholder="Enter Reciepe Name" ref={name} />
-        <select name="" id="" ref={foodtype}>
-          <option value="">--choose one---</option>
-          <option value="breakfast">Breakfast</option>
-          <option value="lunch">Lunch</option>
-          <option value="snacks">Snacks</option>
-          <option value="dinner">Dinner</option>
-        </select>
-        <input type="file" onChange={handleOnchange} />
-        <input type="number" placeholder="Enter Price" ref={price} />
-        <button type="submit">{isEditing ? "Update" : "Add Reciepe"}</button>
-      </form>
+        <form id="add-form" onSubmit={handleSubmit}>
+          <input type="text" placeholder="Enter Reciepe Name" ref={name} />
+          <select name="" id="" ref={foodtype}>
+            <option value="">--choose one---</option>
+            <option value="breakfast">Breakfast</option>
+            <option value="lunch">Lunch</option>
+            <option value="snacks">Snacks</option>
+            <option value="dinner">Dinner</option>
+          </select>
+          <input type="file" onChange={handleOnchange} />
+          <input type="number" placeholder="Enter Price" ref={price} />
+          <button type="submit">{isEditing ? "Update" : "Add Reciepe"}</button>
+        </form>
       </header>
 
       <div id="sub-container">

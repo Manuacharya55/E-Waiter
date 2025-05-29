@@ -25,12 +25,16 @@ const Cart = () => {
       CART_URL + "fetch-cart",
       user?.token
     );
-    cartDispatch({
-      type: "INITIAL",
-      payload: {
-        data: response.data,
-      },
-    });
+    if (response.success) {
+      cartDispatch({
+        type: "INITIAL",
+        payload: {
+          data: response.data,
+        },
+      });
+    } else {
+      toast.error("Failed To Load Cart");
+    }
   };
 
   useEffect(() => {
@@ -38,32 +42,36 @@ const Cart = () => {
   }, [user?.token]);
 
   const clearCart = async () => {
-    if(!user?.token) return
+    if (!user?.token) return;
 
     const response = await handleDeleteRequest(
       CART_URL + "clear-cart",
       user?.token
     );
 
-    if(response.success){
-      toast.success("Cart Cleared")
+    if (response.success) {
+      toast.success("Cart Cleared");
       cartDispatch({
-        type:"CLEAR_CART"
-      })
-    }else{
-      toast.error("Error Clearing Cart")
+        type: "CLEAR_CART",
+      });
+    } else {
+      toast.error("Error Clearing Cart");
     }
   };
 
-  const handleOrder = async()=>{
-    if(!user?.token) return
-    const response = await handlePostRequest(ORDER_URL,{},user?.token);
+  const handleOrder = async () => {
+    if (!user?.token) return;
+    const response = await handlePostRequest(ORDER_URL, {}, user?.token);
     cartDispatch({
-      type:"CLEAR_CART"
-    })
-    toast.success(response.message)
-    navigate("/reciepe")
-  }
+      type: "CLEAR_CART",
+    });
+    if (response.success) {
+      toast.success(response.message);
+      navigate("/reciepe");
+    } else {
+      toast.error("Failed To Place Order");
+    }
+  };
 
   return cart.length <= 0 ? (
     "No Items In The Cart"
@@ -89,8 +97,12 @@ const Cart = () => {
       <div id="total-price">
         <h1>total amount : ₹ {totalPrice}</h1>
         <div id="btn-holder">
-          <button id="delete" onClick={clearCart}>Clear Cart</button>
-          <button id="delete" onClick={handleOrder}>Place Order</button>
+          <button id="delete" onClick={clearCart}>
+            Clear Cart
+          </button>
+          <button id="delete" onClick={handleOrder}>
+            Place Order
+          </button>
         </div>
       </div>
     </div>

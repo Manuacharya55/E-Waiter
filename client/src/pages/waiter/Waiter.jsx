@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import { handlePatchRequest } from "../../Api/patch";
 import { CgLogOut } from "react-icons/cg";
 import { useNavigate } from "react-router-dom";
+import { socket } from "../../utils/socket";
+import toast from "react-hot-toast";
 
 const Waiter = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -33,6 +35,8 @@ const Waiter = () => {
       setData((prev) =>
         prev.filter((curEle) => curEle._id != response.data._id)
       );
+
+    toast.success(`${response.data.table.username} Food Delieverd`)
     }
   };
 
@@ -49,6 +53,18 @@ const Waiter = () => {
     }
   }, [user?.token]);
 
+  useEffect(()=>{
+    const handleOrder = (data) =>{
+      setData((prev) => [data.data,...prev])
+      toast.success("Order Recieved")
+
+    }
+    socket.on("waiter-status-updated",handleOrder)
+
+   return ()=>{
+    socket.off("waiter-status-updated",handleOrder)
+   }
+  })
   return isLoading ? (
     "Loading..."
   ) : (

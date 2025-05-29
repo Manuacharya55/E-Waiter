@@ -3,6 +3,7 @@ import "../../styles/admin.css";
 import NavBar from "../../components/NavBar";
 import { useEffect, useState } from "react";
 import { handleGetRequest } from "../../Api/get";
+import toast from "react-hot-toast";
 
 const DashBoard = () => {
   const { user } = useAuth();
@@ -13,8 +14,12 @@ const DashBoard = () => {
   const loadDashboard = async () => {
     if (!user?.token) return;
     const response = await handleGetRequest(URL, user?.token);
-    setData(response.data);
+    if(response.success){
+      setData(response.data);
     setIsLoading(false);
+    }else{
+      toast.error("Failed To Load")
+    }
   };
 
   useEffect(() => {

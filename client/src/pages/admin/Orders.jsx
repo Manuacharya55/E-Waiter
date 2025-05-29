@@ -30,16 +30,17 @@ const Orders = () => {
   // Fetch orders from API
   const loadOrders = async () => {
     if (!user?.token) return;
-    try {
-      const response = await handleGetRequest(
-        ORDER_URL + "todays-orders",
-        user.token
-      );
+
+    const response = await handleGetRequest(
+      ORDER_URL + "todays-orders",
+      user?.token
+    );
+
+    if (response.success) {
       setData(response.data);
-    } catch (error) {
+      setIsLoading(false)
+    } else {
       toast.error("Failed to load orders");
-    } finally {
-      setIsLoading(false);
     }
   };
 

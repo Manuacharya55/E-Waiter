@@ -18,7 +18,7 @@ const Reciepe = () => {
   const btnArray = ["All", "Breakfast", "Lunch", "Snacks", "Dinner"];
   const [btnstate, setBtnState] = useState(0);
   const food_url = import.meta.env.VITE_ADD_FOOD_URL;
-  const { user } = useAuth();
+  const { user,removeLocalStorage } = useAuth();
   const { reciepe, reciepeDispatch } = useReciepe();
   const { cart, cartDispatch } = useCart();
   const CART_URL = import.meta.env.VITE_POST_CART_URL + "add/";
@@ -73,12 +73,14 @@ const Reciepe = () => {
     "loading"
   ) : (
     <div id="container">
-      <h1>
-              <CgLogOut onClick={()=>{
+      <div id="banner">
+        <h1 onClick={()=>{
                 removeLocalStorage()
                 navigate("/")
-              }}/>
+              }}>
+              <CgLogOut />
             </h1>
+      </div>
       <div id="banner">
         <h1>All Reciepes</h1>
       </div>
@@ -126,6 +128,7 @@ const Reciepe = () => {
                 price={curEle.price}
                 editable={false}
                 isActive={curEle.isActive}
+                imageUrl={curEle.imageUrl}
                 addToCart={addToCart}
               />
             ))

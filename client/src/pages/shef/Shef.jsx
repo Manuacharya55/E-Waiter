@@ -56,7 +56,7 @@ const Shef = () => {
     socket.on("order-placed", handleOrder);
 
     return () => {
-      socket.close("order-placed", handleOrder);
+      socket.off("order-placed", handleOrder);
     };
   }, []);
 
