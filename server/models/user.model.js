@@ -14,7 +14,7 @@ const userSchema = Schema({
   role: {
     type: String,
     default: "table",
-    enum:["admin","table","sheff","waiter"]
+    enum: ["admin", "table", "sheff", "waiter"]
   },
   isActive: {
     type: Boolean,
@@ -31,7 +31,7 @@ const userSchema = Schema({
         type: Number,
         default: 1,
         min: 1,
-      },  
+      },
     },
   ],
 });
@@ -49,14 +49,17 @@ userSchema.methods.matchPassword = async function (password) {
 };
 
 userSchema.methods.generateToken = async function () {
+  const token = await jwt.sign(
+    {
+      _id: this._id,
+      role: this.role,
+      username: this.username,
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: "1d" }
+  );
 
-  const token = await jwt.sign({
-    _id : this._id,
-    role : this.role,
-    username : this.username
-  },process.env.JWT_SECRET)
-
-  return token
+  return token;
 };
 
 const User = model("User", userSchema);

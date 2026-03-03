@@ -1,19 +1,18 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { FaLock, FaUser } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext";
 import { handlePostRequest } from "../Api/post";
 import "../styles/form.css";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 import { socket } from "../utils/socket";
 
 const Login = () => {
   const username = useRef("");
   const password = useRef("");
   const { setLocalStorage } = useAuth();
-  const url = "http://localhost:4000/api/v1/auth/login";
   const navigate = useNavigate();
+  const url = import.meta.env.VITE_API_URL + "/auth/login";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,7 +44,7 @@ const Login = () => {
               break;
           }
 
-          return response.message;
+          return "Login Successful";
         } else {
           throw new Error("Invalid Credentials");
         }
@@ -69,14 +68,14 @@ const Login = () => {
         <div id="form-icon">
           <FaLock />
           <input
-            type="text"
+            type="password"
             ref={password}
             placeholder="Enter The Table Password"
           />
         </div>
 
         <button id="login" type="submit">
-          login
+          Login
         </button>
       </form>
     </div>

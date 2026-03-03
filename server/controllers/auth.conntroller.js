@@ -21,10 +21,13 @@ export const registerTable = asyncHandler(async (req, res) => {
     role
   });
 
+  const userResponse = user.toObject();
+  delete userResponse.password;
+
   const token = await user.generateToken();
   res
     .status(200)
-    .json(new ApiSuccess(200, "table registerd successfully", { user, token }));
+    .json(new ApiSuccess(200, "table registerd successfully", { user: userResponse, token }));
 });
 
 export const loginTable = asyncHandler(async (req, res) => {
@@ -48,11 +51,14 @@ export const loginTable = asyncHandler(async (req, res) => {
 
   const token = await existingUser.generateToken();
 
+  const userResponse = existingUser.toObject();
+  delete userResponse.password;
+
   res
     .status(200)
     .json(
       new ApiSuccess(200, "logged in successfully", {
-        user: existingUser,
+        user: userResponse,
         token,
       })
     );
@@ -71,7 +77,7 @@ export const handleActivate = asyncHandler(async (req, res) => {
     id,
     { isActive: !existingTable.isActive },
     { new: true }
-  );
+  ).select("-password -cart");
   res
     .status(200)
     .json(new ApiSuccess(200, "Updated Status Successfully", updatedtable));

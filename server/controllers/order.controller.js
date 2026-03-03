@@ -3,8 +3,6 @@ import User from "../models/user.model.js";
 import ApiError from "../utils/ApiError.js";
 import Order from "../models/order.model.js";
 import ApiSuccess from "../utils/ApiSuccess.js";
-import { io } from "../index.js";
-
 const dates_calculated = () => {
   const date = new Date();
   const startoftheDay = new Date(date);
@@ -50,6 +48,7 @@ export const orderFood = asyncHandler(async (req, res) => {
       path: "order.food",
     },
   ]);
+  const io = req.app.get("io");
   io.emit("order-placed", { order: createdOrder });
   res.json(new ApiSuccess(200, "Order Placed Successfully", createdOrder));
 });
@@ -137,6 +136,7 @@ export const update_Order_Status = asyncHandler(async (req, res) => {
     },
   ]);
 
+  const io = req.app.get("io");
   io.emit("order-status-updated", { data: order });
   if (status == "processed") {
     io.emit("waiter-status-updated", { data: order });
@@ -150,7 +150,7 @@ export const update_Payment_Status = asyncHandler(async (req, res) => {
 
   const updatedData = await Order.findByIdAndUpdate(
     id,
-    { $set: { paymentStatus : status } },
+    { $set: { paymentStatus: status } },
     { new: true }
   );
 

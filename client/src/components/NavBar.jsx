@@ -4,83 +4,52 @@ import { CgLogOut } from "react-icons/cg";
 import { CiMenuFries } from "react-icons/ci";
 import "../styles/navbar.css";
 import { useAuth } from "../context/AuthContext";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const NavBar = () => {
   const { removeLocalStorage } = useAuth();
-  const [open,setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
-  const openState = {
-    transform:"translateY(0%)"
-  }
-
-  const closeState = {
-    transform:"translateY(-100%)"
-  }
+  const handleLogout = () => {
+    removeLocalStorage();
+    navigate("/");
+  };
 
   return (
-      <nav id="desktop-view">
-        <h1>Logo</h1>
-        <ul>
-          <li id="hideonmobile">
-            <NavLink to="/dashboard">Home</NavLink>
-          </li>
-          <li id="hideonmobile">
-            <NavLink to="/orders">Orders</NavLink>
-          </li>
-          <li id="hideonmobile">
-            <NavLink to="/tables">Tables</NavLink>
-          </li>
-          <li id="hideonmobile">
-            <NavLink to="/all-reciepe">Reciepe</NavLink>
-          </li>
-          <li id="hideonmobile">
-            <NavLink to="/history">History</NavLink>
-          </li>
-        </ul>
+    <nav>
+      <h1>E-Waiter</h1>
+      <ul>
+        <li id="hideonmobile"><NavLink to="/dashboard">Dashboard</NavLink></li>
+        <li id="hideonmobile"><NavLink to="/orders">Orders</NavLink></li>
+        <li id="hideonmobile"><NavLink to="/tables">Users</NavLink></li>
+        <li id="hideonmobile"><NavLink to="/all-reciepe">Recipes</NavLink></li>
+        <li id="hideonmobile"><NavLink to="/history">History</NavLink></li>
+      </ul>
 
-        <h1 id="hamburger" onClick={()=>{
-          setOpen(true)
-        }}>
-          <CiMenuFries />
-        </h1>
-        <h1 id="hideonmobile">
-          <CgLogOut
-            onClick={() => {
-              removeLocalStorage();
-              navigate("/");
-            }}
-          />
-        </h1>
+      <span id="hamburger" onClick={() => setOpen(true)}>
+        <CiMenuFries />
+      </span>
 
-        <ul id="sidebar" style={open? openState : closeState}>
-          <IoClose onClick={()=>setOpen(false)}/>
-          <li>
-            <NavLink to="/dashboard">Home</NavLink>
-          </li>
-          <li>
-            <NavLink to="/orders">Orders</NavLink>
-          </li>
-          <li>
-            <NavLink to="/tables">Tables</NavLink>
-          </li>
-          <li>
-            <NavLink to="/all-reciepe">Reciepe</NavLink>
-          </li>
-          <li>
-            <NavLink to="/history">History</NavLink>
-          </li>
-          <h1>
-            <CgLogOut
-              onClick={() => {
-                removeLocalStorage();
-                navigate("/");
-              }}
-            />
-          </h1>
-        </ul>
-      </nav>
+      <button id="logout" onClick={handleLogout} style={{ display: open ? "none" : undefined }}>
+        <CgLogOut style={{ fontSize: 14 }} /> Logout
+      </button>
+
+      <ul
+        id="sidebar"
+        style={{ transform: open ? "translateX(0)" : "translateX(100%)" }}
+      >
+        <IoClose onClick={() => setOpen(false)} />
+        <li><NavLink to="/dashboard" onClick={() => setOpen(false)}>Dashboard</NavLink></li>
+        <li><NavLink to="/orders" onClick={() => setOpen(false)}>Orders</NavLink></li>
+        <li><NavLink to="/tables" onClick={() => setOpen(false)}>Users</NavLink></li>
+        <li><NavLink to="/all-reciepe" onClick={() => setOpen(false)}>Recipes</NavLink></li>
+        <li><NavLink to="/history" onClick={() => setOpen(false)}>History</NavLink></li>
+        <li>
+          <a onClick={handleLogout} style={{ cursor: "pointer", color: "#ff4444" }}>Logout</a>
+        </li>
+      </ul>
+    </nav>
   );
 };
 

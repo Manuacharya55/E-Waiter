@@ -11,40 +11,38 @@ const Card = ({
   onEdit,
   onDelete,
   addToCart,
-  imageUrl
+  imageUrl,
 }) => {
   return (
     <div id="card">
-      <img
-        src={imageUrl}
-        alt=""
-      />
+      <img src={imageUrl} alt={name} />
 
       <div id="card-details">
+        {editable && (
+          <span className={`card-badge ${isActive ? "card-badge-active" : "card-badge-inactive"}`}>
+            {isActive ? "Active" : "Inactive"}
+          </span>
+        )}
         <h2>{name}</h2>
-        <p>category : {category}</p>
-        <h1>₹ {price}</h1>
+        <p>{foodtype}</p>
+        <h1>₹{price}</h1>
+      </div>
 
+      <div id="btn-holder">
         {editable ? (
-          <div id="btn-holder">
-            <button id="edit" onClick={() => onEdit(_id)}>
-              Edit
-            </button>
+          <>
+            <button id="edit" onClick={() => onEdit(_id)}>Edit</button>
             <button id="delete" onClick={() => onDelete(_id)}>
               {isActive ? "Deactivate" : "Activate"}
             </button>
-          </div>
+          </>
         ) : (
-          <div id="btn-holder">
-            <button
-              id="delete"
-              onClick={() => {
-                addToCart({ _id, name, category, price ,imageUrl :"http://www.baltana.com/files/wallpapers-5/Pizza-HD-Wallpapers-15281.jpg" });
-              }}
-            >
-              Add to cart
-            </button>
-          </div>
+          <button
+            id="delete"
+            onClick={() => addToCart({ _id, name, category, price, imageUrl })}
+          >
+            Add to Cart
+          </button>
         )}
       </div>
     </div>

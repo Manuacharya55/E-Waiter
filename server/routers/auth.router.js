@@ -4,7 +4,7 @@ import { verifyUser, verifyAdmin } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-router.route("/register").post(verifyUser,verifyAdmin,registerTable);
+router.route("/register").post(registerTable);
 router.route("/list-users").get(verifyUser,verifyAdmin,listUsers);
 router.route("/login").post(loginTable);
 router.route("/active-status/:id").patch(verifyUser,verifyAdmin,handleActivate);

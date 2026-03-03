@@ -8,8 +8,8 @@ import toast from "react-hot-toast";
 
 const CartComponent = ({ prop, totalPrice, setTotalPrice }) => {
   const { cart, cartDispatch } = useCart();
-  const INCREMENT_URL = import.meta.env.VITE_POST_CART_URL + "add/";
-  const DECREMENT_URL = import.meta.env.VITE_POST_CART_URL + "remove/";
+  const INCREMENT_URL = import.meta.env.VITE_API_URL + "/cart/add/";
+  const DECREMENT_URL = import.meta.env.VITE_API_URL + "/cart/remove/";
   const { user } = useAuth();
 
   const handleChange = async (operation) => {

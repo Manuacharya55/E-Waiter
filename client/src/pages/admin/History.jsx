@@ -5,16 +5,14 @@ import { handleGetRequest } from "../../Api/get";
 import Modal from "../../components/Modal";
 import NavBar from "../../components/NavBar";
 import toast from "react-hot-toast";
+import Loader from "../../components/Loader";
 
 const History = () => {
-  const ORDER_URL = import.meta.env.VITE_ORDER_URL;
+  const ORDER_URL = import.meta.env.VITE_API_URL + "/order/";
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [isOpen, setIsOpen] = useState({
-    isOpen: false,
-    order: [],
-  });
+  const [isOpen, setIsOpen] = useState({ isOpen: false, order: [] });
 
   const loadOrders = async () => {
     if (!user?.token) return;
@@ -28,66 +26,55 @@ const History = () => {
   };
 
   useEffect(() => {
-    if (user?.token) {
-      loadOrders();
-    }
+    if (user?.token) loadOrders();
   }, [user?.token]);
 
-  const tableheader = [
-    "table",
-    "order id",
-    "total Amount",
-    "status",
-    "Payment Status",
-    "orderedAt",
-    "order",
-  ];
+  const handleModal = (order) => setIsOpen({ isOpen: true, order });
 
-  const handleModal = (order) => {
-    setIsOpen({
-      isOpen: true,
-      order,
-    });
-  };
+  if (isLoading) return <Loader />;
 
-  return isLoading ? (
-    "Loading"
-  ) : (
+  return (
     <div id="container">
       <header>
         <NavBar />
         <div id="banner">
           <h1>Order History</h1>
+          <span style={{ color: "rgba(255,255,255,0.5)", fontSize: 13 }}>
+            {data.length} total order{data.length !== 1 ? "s" : ""}
+          </span>
         </div>
       </header>
       <div id="sub-container">
-        {data.length == 0 ? (
-          "No Orders Yet"
+        {data.length === 0 ? (
+          <div className="empty-state">No order history.</div>
         ) : (
           <table>
             <thead>
               <tr>
-                {tableheader.map((curEle, id) => (
-                  <th key={id}>{curEle}</th>
-                ))}
+                <th>Table</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Payment</th>
+                <th>Date</th>
+                <th>Details</th>
               </tr>
             </thead>
             <tbody>
               {data.map((curEle) => (
                 <tr key={curEle._id}>
-                  <td>{curEle.table.username}</td>
-                  <td>{curEle._id}</td>
-                  <td>₹ {curEle.totalAmount}</td>
-                  <td>{curEle.status}</td>
-                  <td>{curEle.paymentStatus}</td>
-                  <td>{new Date(curEle.orderedAt).toLocaleString("en-IN")}</td>
+                  <td style={{ fontWeight: 600 }}>{curEle.table.username}</td>
+                  <td style={{ fontWeight: 600 }}>₹{curEle.totalAmount}</td>
                   <td>
-                    <button
-                      id="delete"
-                      onClick={() => handleModal(curEle.order)}
-                    >
-                      view details
-                    </button>
+                    <span className={`badge badge-${curEle.status}`}>{curEle.status}</span>
+                  </td>
+                  <td>
+                    <span className={`badge badge-${curEle.paymentStatus}`}>{curEle.paymentStatus}</span>
+                  </td>
+                  <td style={{ color: "#888", fontSize: 13 }}>
+                    {new Date(curEle.orderedAt).toLocaleDateString("en-IN")}
+                  </td>
+                  <td>
+                    <button onClick={() => handleModal(curEle.order)}>View</button>
                   </td>
                 </tr>
               ))}
