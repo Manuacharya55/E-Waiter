@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 <p align="center">
   <img src="https://img.icons8.com/fluency/96/restaurant.png" alt="E-Waiter Logo" width="80"/>
 </p>
@@ -22,7 +22,7 @@
 ---
 
 ## 📸 Screenshots
-> *screenshots (Chef & Waiter interfaces) coming soon._*
+> *screenshots coming soon._*
 
 ---
 
@@ -327,5 +327,3 @@ This project is open-source and available under the [MIT License](LICENSE).
 
 Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
 
----
->>>>>>> 6e4d3e221289d1ae8a9a5116d56513e4ecec58d7
